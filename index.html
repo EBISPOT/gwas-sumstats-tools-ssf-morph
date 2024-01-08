@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+      <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <h1>Pyodide crypt4gh test page</h1> <br>
+    <p>Open your browser console to see Pyodide output</p>
+    
+    <script type="text/javascript">
+      async function main(){
+        let pyodide = await loadPyodide();
+        await pyodide.loadPackage("micropip");
+        const micropip = pyodide.pyimport("micropip");
+
+        // manual workaround: docopt doesn't have a wheel file on python
+        await micropip.install("./static/docopt-0.6.2-py2.py3-none-any.whl")
+        await micropip.install("crypt4gh")
+
+        console.log(pyodide.runPython(`
+            import sys
+            sys.version
+
+            import crypt4gh
+            f"crypt4gh version: {crypt4gh.__version__}"
+        `));
+        
+        // fake file that needs to be encrypted
+        let data = "hello world!";
+        pyodide.FS.writeFile("/hello.txt", data, { encoding: "utf8" });
+
+
+        // set up private and public keys
+        let pub_key = `
+        -----BEGIN CRYPT4GH PUBLIC KEY-----
+        HzBf8nOoIXnr7H9Yiqypgr7CV2yJkliU6K+2vHYxFQo=
+        -----END CRYPT4GH PUBLIC KEY-----
+        `
+        pyodide.FS.writeFile("/pub.txt", pub_key, { encoding: "utf8" });
+
+        console.log(pyodide.runPython(`
+        from crypt4gh.keys import get_public_key
+        from nacl.public import PrivateKey
+
+        private_key = bytes(PrivateKey.generate())
+        pub_key = get_public_key("/pub.txt")
+
+        from crypt4gh.lib import encrypt
+        with open("/hello.txt", "rb") as original_file, open("/hello.crypt4gh", "wb") as encrypted_file_wb:
+            encrypt([(0, private_key, pub_key)], original_file, encrypted_file_wb)
+
+        "file encrypted"
+        `));
+
+        // read back
+        console.log(pyodide.runPython(`
+        with open("/hello.txt") as f:
+          unencrypted = f.read()
+
+        with open("/hello.crypt4gh", "rb") as f:
+            encrypted = f.read()
+
+        f"""Unencrypted data: {unencrypted}
+        Encrypted data: {encrypted}
+        """
+        `));
+      }
+
+  
+
+        
+      main();
+    </script>
+  </body>
+</html>
