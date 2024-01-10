@@ -29,8 +29,24 @@ self.onmessage = async (event) => {
     }
     // Now is the easy part, the one that is similar to working in the main thread:
     try {
+        var startTime = performance.now()
+
         await self.pyodide.loadPackagesFromImports(python);
+
+        pyodide.FS.writeFile("/tmp/pubkey.txt", self.pubKey, {encoding: "utf8"});
+
+        // mount local directory
+        const nativefs = await self.pyodide.mountNativeFS("/data", self.dirHandle);
+
+        // run crypt4gh in python
         let results = await self.pyodide.runPythonAsync(python);
+
+        // flush new files to disk
+        await nativefs.syncfs();
+
+        var endTime = performance.now()
+
+        console.log(`Encryption web worker took ${(endTime - startTime) / 1000} seconds`)
         self.postMessage({ results, id });
     } catch (error) {
         self.postMessage({ error: error.message, id });
