@@ -7,6 +7,8 @@
 <body>
 <h1>crypt4gh WebAssembly demo</h1>
 
+<p><strong>This is a proof of concept to test client-side encryption of genomic data.</strong></p>
+
 <h2>Encrypt your genomes</h2>
 
 <details>
@@ -26,6 +28,8 @@ HzBf8nOoIXnr7H9Yiqypgr7CV2yJkliU6K+2vHYxFQo=
 <h3>3. Save the new encrypted file</h3>
 <button id="encrypt"  disabled="true">Encrypt</button>
 <script type="module" src="consumer.js"></script>
-
+<p>Check the developer console (F12) to see if encryption has finished. </p>
+<p>A 300MB file takes about 10 seconds to encrypt. A 1GB file will take about 30 seconds to encrypt.</p>
+<p>Files larger than this probably won't work currently.</p>
 </body>
 </html>
