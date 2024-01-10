@@ -1,22 +1,30 @@
 <!doctype html>
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-    <!-- CSS only -->
     <link rel="stylesheet" href="https://assets.emblstatic.net/vf/v2.5.14/css/styles.css">
-    <script src="crypt4gh.js" defer></script>
 </head>
 <body>
-<h1>crypt4gh WebAssembly demo</h1> <br>
-<p>This application encrypts data using crypt4gh.</p>
-<p>A private key (the sender's key) is randomly generated each time the page is loaded, and a public key (the recipient) is hardcoded.</p>
-<p>All work is done in your web browser. Your data never leaves your computer.</p>
+<h1>crypt4gh WebAssembly demo</h1>
 
-<p>Start by giving this application temporary permission to <strong>read and edit</strong> from a directory on your computer.
-    This directory should contain the sensitive data that you want to encrypt.
-<aside>After you close this tab, the application won't be able to access files on your computer, and you'll need to grant permission again.</aside></p>
-<button onclick="openDirectoryPicker()">Select directory</button>
-<p>Then encrypt it! This dumb demo <strong>creates an encrypted copy of every file in the directory</strong></p>
-<button id="encrypt" disabled="true" onclick="crypt4gh()">Encrypt</button>
+<h2>Encrypt your genomes</h2>
+
+<details>
+    <h2>Recipient key</h2>
+    <textarea id="pubkey" cols="45" rows="3" disabled="readonly" style="overflow:hidden;resize:none">
+-----BEGIN CRYPT4GH PUBLIC KEY-----
+HzBf8nOoIXnr7H9Yiqypgr7CV2yJkliU6K+2vHYxFQo=
+-----END CRYPT4GH PUBLIC KEY-----
+    </textarea>
+    <p>The sender's key (you) will be randomly generated.</p>
+</details>
+
+<h3>1. Grant permission to read and edit files in a local directory</h3>
+<button id="mount">Grant permission</button>
+<h3>2. Select a file you want to encrypt</h3>
+<button id="select" disabled="true">Select file</button>
+<h3>3. Save the new encrypted file</h3>
+<button id="encrypt"  disabled="true">Encrypt</button>
+<script type="module" src="consumer.js"></script>
+
 </body>
 </html>
