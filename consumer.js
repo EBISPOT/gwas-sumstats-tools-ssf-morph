@@ -19,6 +19,7 @@ async function main() {
         const { results, error } = await asyncRun(script, context);
         if (results) {
             console.log("pyodideWorker return results: ", results);
+            alert("Encryption finished successfully!");
         } else if (error) {
             console.log("pyodideWorker error: ", error);
         }
