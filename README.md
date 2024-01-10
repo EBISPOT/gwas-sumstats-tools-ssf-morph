@@ -1,6 +1,10 @@
 # crypt4gh-wasm
 
-Encrypt a local file with crypt4gh using a web browser and pyodide.
+Encrypt a local file with crypt4gh using a web browser. 
+
+Requires a chromium browser (Google Chrome, Microsoft Edge).
+
+Files are encrypted with a hardcoded public key and randomly generated private keys.
 
 To run the demo:
 
