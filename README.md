@@ -1,8 +1,8 @@
 # crypt4gh-wasm
 
-Encrypt a local file with crypt4gh using a web browser. 
+Encrypt a local file with crypt4gh using a web browser. **This is a proof of concept and not suitable for production**.
 
-Requires a chromium browser (Google Chrome, Microsoft Edge).
+Requires a chromium browser (Google Chrome, Microsoft Edge) that supports the File System Access API.
 
 Files are encrypted with a hardcoded public key and randomly generated private keys.
 
