@@ -6,7 +6,7 @@ Requires a chromium browser (Google Chrome, Microsoft Edge) that supports the [F
 
 Files are encrypted with a hardcoded public key and randomly generated private keys.
 
-To run the demo:
+The demo is [live on GitHub Pages](https://ebi-gdp.github.io/crypt4gh-wasm/). If you'd like to run a local development version:
 
 ```
 $ cd crypt4gh-wasm
