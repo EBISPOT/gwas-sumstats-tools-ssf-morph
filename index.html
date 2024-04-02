@@ -1,37 +1,167 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 <head>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://assets.emblstatic.net/vf/v2.5.14/css/styles.css">
+    <meta charset="UTF-8">
+	  <title>GWAS summary statistic formatter</title>
+      <link rel="stylesheet" href="https://assets.emblstatic.net/vf/v2.5.14/css/styles.css">
+      <link rel="specificstyle" href="specificstyle.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
+
 </head>
 <body>
-<h1>crypt4gh browser demo</h1>
+  <header>
+    <h1>GWAS Summary Statistics Formatter</h1>
+  </header>
+  <form>
+		<fieldset>
+      <legend> INTRODUCTION </legend>
+  <p> This tool allows you to format a single file or multiple files with the same starting format to a desired tabular format for GWAS summary statistics output. </p>
+  <p> The formatting process has three steps:
+  </p>
+  
+  <ul>
+  <li>Generate a formatting configuration template from the sumstats file</li>
+  <li>Edit the formatting configuration as required</li>
+  <li>Apply the formatting configuration to the file(s)</li>
+  </ul>
+  </fieldset>
+  </form>
 
-<p><strong>This is a proof of concept to test client-side encryption of genomic data.</strong> It requires a modern version of a chromium-based browser (e.g. Google Chrome/Microsoft Edge).</p>
+<section id="step1">
+  <h1> STEP 1:</h1>
+  <p>Please grant the permission to read and edit files in one of your local directory</p>
+  <button type="button" id="mount">Grant permission</button>
+  <p>Please select your input file</p>
+  <button type="button" id="select" disabled="true">Select input file</button>
+</section>
+<section id="step2">
+  <h1>STEP 2:</h1>
+  <p>To generate a configure file:</p>
+  <ul>
+  <li><p>If you want to generate a new configure file, please click <button type="button" id="generate" disabled="true">generate</button> </p> </li>
+  <li><p>If you already have a configure file, please paste your configure file in the following box on the left (Conigure) </p></li>
+</section>
+<section id="step3">
+  <h1> STEP 3:</h1>
+  <p>Preview how your configuration file changes the file, and then edit the configuration file</p>
+  <div class="main">
+    <table>
+      <tr>
+        <td rowspan=3 style='width:70%'>
+          Configure:
+          <br>
+          <textarea id="config_out" style="width: 95%;" rows="60"></textarea>
+          <button id="test">Test</button>
+        </td>
+        <td style='width:30%'>Example:
+          <br>
+             <table id="example_table" class="cell-border">
+                <thead>
+                  <tr>
+                    <td>chromosome</td>
+                    <td>base_pair_location</td>
+                    <td>effect_allele</td>
+                    <td>other_allele</td>
+                    <td>beta</td>
+                    <td>standard_error</td>
+                    <td>effect_allele_frequency</td>
+                    <td>p_value</td>
+                    <td>...</td>
+                  </tr>
+                </thead>
+                <tbody>
+                     <tr>
+                         <td>1</td>
+                         <td>693731</td>
+                         <td>A</td>
+                         <td>G</td>
+                         <td>-0.016619</td>
+                         <td>0.00806496</td>
+                         <td>0.997221</td>
+                         <td>0.1</td>
+                         <td>...</td>
+                     </tr>
+                     <tr>
+                         <td>1</td>
+                         <td>935393</td>
+                         <td>G</td>
+                         <td>GCCACGGG</td>
+                         <td>-0.016619</td>
+                         <td>0.00806496</td>
+                         <td>0.997221</td>
+                         <td>0.1</td>
+                         <td>...</td>
+                     </tr>
+                     <tr>
+                         <td>1</td>
+                         <td>935393</td>
+                         <td>G</td>
+                         <td>GCCACGGG</td>
+                         <td>-0.016619</td>
+                         <td>0.00806496</td>
+                         <td>0.997221</td>
+                         <td>0.1</td>
+                         <td>...</td>
+                     </tr>
+                     <tr>
+                         <td>1</td>
+                         <td>935475</td>
+                         <td>CGC</td>
+                         <td>C</td>
+                         <td>-0.016619</td>
+                         <td>0.00806496</td>
+                         <td>0.997221</td>
+                         <td>0.1</td>
+                         <td>...</td>
+                     </tr>
+                </tbody>
+             </table>
+        </td>
+      </tr>
+      <tr>
+        <td style='width:30%'>Your input:
+          <br>
+          <table id="your_input" class="cell-border">
+            &nbsp
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td style='width:30%'>Your output:
+          <br>
+          <table id="your_output" class="cell-border">
+            <textarea id="test_example" style="width: 95%"></textarea>
+            &nbsp
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
 
-<p>No data is transferred from your computer. All work happens on your local computer, in the web browser.</p>
+<ul>
+  <li>If you are happy with your configure file, you can also download the configure file here
+  <button id="download" disabled="true">download configure file</button></li>
+</ul>
+  </section>
+<section>  
+  <h1> STEP 4:</h1>
+  <p>Applying the configure file to your selected inout file (1 file)</p>
+  <button id="apply">Apply</button>
+  <textarea id="apply_configure" style="width: 95%"></textarea>
+</section>
+<section>  
+    <h1> STEP 5:</h1>
+    <p>Validate your formatted result</p>
+    <p>Please select the file you want to validate <button id="select_validate">Select to validate</button></p>
+    <button id="validate">Validate</button>
+    <textarea id="validation_out" style="width: 100%;" disabled></textarea>
+  </section>
 
-<h2>Encrypt your genomes</h2>
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+  <script type="module" src="consumer.js"></script>
 
-<details>
-    <h2>Recipient key</h2>
-    <textarea id="pubkey" cols="45" rows="3" style="overflow:hidden;resize:none">
------BEGIN CRYPT4GH PUBLIC KEY-----
-HzBf8nOoIXnr7H9Yiqypgr7CV2yJkliU6K+2vHYxFQo=
------END CRYPT4GH PUBLIC KEY-----
-    </textarea>
-    <p>The sender's key (you) will be randomly generated.</p>
-</details>
-
-<h3>1. Grant permission to read and edit files in a local directory</h3>
-<button id="mount">Grant permission</button>
-<h3>2. Select a file you want to encrypt</h3>
-<button id="select" disabled="true">Select file</button>
-<h3>3. Save the new encrypted file</h3>
-<button id="encrypt"  disabled="true">Encrypt</button>
-<script type="module" src="consumer.js"></script>
-<p>Check the developer console (F12) to see if encryption has finished. </p>
-<p>A 300MB file takes about 10 seconds to encrypt. A 1GB file will take about 30 seconds to encrypt.</p>
-<p>Files larger than this probably won't work currently.</p>
 </body>
-</html>
+ 
+ 

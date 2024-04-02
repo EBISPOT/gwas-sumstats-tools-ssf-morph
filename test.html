@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+      <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+  </head>
+  <body>
+    Pyodide test page <br>
+    Open your browser console to see Pyodide output
+    <script type="text/javascript">
+
+async function loadPyodideAndPackages() {
+    self.pyodide = await loadPyodide();
+    await pyodide.loadPackage("micropip");
+
+    const micropip = pyodide.pyimport("micropip");
+
+    // manual workaround: docopt doesn't have a wheel file on python
+    await pyodide.loadPackage("micropip");
+        const micropip = pyodide.pyimport("micropip");
+        await pyodide.loadPackage("ruamel.yaml");
+        await pyodide.loadPackage("pandas");
+        await micropip.install("https://pandastutor.com/build/pandastutor-1.0-py3-none-any.whl");
+        await micropip.install("./static/petl-1.7.14-py3-none-any.whl");
+        await micropip.install("./static/stringcase-1.2.0/stringcase-1.2.0-py3-none-any.whl");
+        await micropip.install("./static/gwas-sumstats-tools/dist/gwas_sumstats_tools-1.0.6-py3-none-any.whl", keep_going=true);
+}
+let pyodideReadyPromise = loadPyodideAndPackages();
+
+// Load Pyodide
+let pyodide = await loadPyodide({ indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/" });
+
+// Create a file input element
+let input = document.createElement('input');
+input.type = 'file';
+
+// Wait for the user to select a file
+input.onchange = async (event) => {
+    let file = event.target.files[0];
+    let reader = new FileReader();
+
+    reader.onload = async (event) => {
+        // Convert the file data to a Python bytes object
+        let data = new Uint8Array(event.target.result);
+        let pythonBytes = pyodide.pyimport('builtins').bytes(data);
+
+        // Now you can use the file data in your Python code
+        pyodide.runPython(`
+import pandas as pd
+from io import BytesIO
+
+# Convert the bytes back to a file-like object
+file_obj = BytesIO(${pythonBytes})
+
+# Read the file with pandas
+df = pd.read_csv(file_obj)
+print(df)
+`);
+    };
+
+    reader.readAsArrayBuffer(file);
+};
+
+// Trigger the file selection dialog
+input.click();
+</script>
+</body>
+</html>

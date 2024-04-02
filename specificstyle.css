@@ -1,0 +1,101 @@
+@import url("https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css");
+header{
+	background-color: #6DAB49;
+	width: 1000px;
+	height: 50px;
+	background-position: center;
+	margin: 30px;
+}
+header h1{
+	padding-top: 5px;
+	color: #FFFFFF;
+  text-align: center 
+}
+.mount:target{
+  color: green;
+}
+.main {
+      width: 1000px;
+    }
+    .box {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+    }
+    .box td {
+        flex: 1 1 100%;
+        border: 1px ;
+    }
+
+.table_component {
+    overflow: auto;
+    width: 100%;
+    
+}
+
+.table_component table {
+    border: 1px solid #dededf;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    text-align: left;
+    display:inline-block;
+}
+
+.table_component caption {
+    caption-side: top;
+    text-align: left;
+}
+
+.table_component th {
+    border: 1px solid #dededf;
+    background-color: #eceff1;
+    color: #000000;
+    padding: 5px;
+}
+
+.table_component td {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 5px;
+}
+
+.table_component {
+    overflow: auto;
+    width: 100%;
+    
+}
+
+.table_component table {
+    border: 1px solid #dededf;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    text-align: left;
+    display:inline-block;
+}
+
+.table_component caption {
+    caption-side: top;
+    text-align: left;
+}
+
+.table_component th {
+    border: 1px solid #dededf;
+    background-color: #eceff1;
+    color: #000000;
+    padding: 5px;
+}
+
+.table_component td {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 5px;
+}
