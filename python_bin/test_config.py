@@ -1,4 +1,4 @@
-from js import inputFileName, folder, config
+from js import inputFileName, config
 from gwas_sumstats_tools.format import format
 from datetime import datetime
 from pathlib import Path
@@ -6,7 +6,7 @@ import petl as etl
 import json
 
 
-input_path = Path(folder) / inputFileName
+input_path = Path("/data") / inputFileName
 config_dict = json.loads(config)
 output=format(filename=input_path,test_config=True,config_dict=config_dict)
 out_header=list(output.header())

@@ -1,4 +1,4 @@
-from js import inputFileName, folder
+from js import inputFileName
 from gwas_sumstats_tools.read import read
 from datetime import datetime
 from pathlib import Path
@@ -6,7 +6,7 @@ import petl as etl
 import json
 
 
-input_path = Path(folder) / inputFileName
+input_path = Path("/data") / inputFileName
 
 output=read(filename=input_path)[0]
 print(output)

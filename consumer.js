@@ -17,8 +17,7 @@ new DataTable('#example_table',{
     paging: false,
     ordering: false,
     searching: false,
-    autoWidth: true,
-    scrollX: true
+    autoWidth: false,
 });
 
 async function mountLocalDirectory() {
@@ -79,7 +78,6 @@ async function getNewFileHandle() {
 }
 
 async function generate(inputFileHandle) {
-    let folder="/data";
     if (!inputFileHandle) {
         error('inputFileHandle is not defined');
         return;
@@ -88,7 +86,6 @@ async function generate(inputFileHandle) {
     let context = {
         dirHandle: dirHandle,
         inputFileName: inputFileHandle.name,
-        folder: folder,
     };
     try {
         const { results, error } = await asyncRun(generate_config, context);
@@ -107,7 +104,6 @@ async function generate(inputFileHandle) {
 }
 
 async function read(inputFileHandle) {
-    let folder="/read";
     if (!inputFileHandle) {
         console.error('inputFileHandle is not defined');
         return;
@@ -117,7 +113,6 @@ async function read(inputFileHandle) {
     let context = {
         dirHandle: dirHandle,
         inputFileName: inputFileHandle.name,
-        folder: folder,
     };
     try {
         const { results, error } = await asyncRun(read_input, context);
@@ -136,7 +131,6 @@ async function read(inputFileHandle) {
 
 
 async function test (inputFileHandle, config) {
-    let folder="/test";
     if (!inputFileHandle) {
         console.error('inputFileHandle is not defined');
         return;
@@ -145,7 +139,6 @@ async function test (inputFileHandle, config) {
         dirHandle: dirHandle,
         inputFileName: inputFileHandle.name,
         config: config,
-        folder: folder,
     };
     try {
         const { results, error } = await asyncRun(test_config, context);
@@ -164,7 +157,6 @@ async function test (inputFileHandle, config) {
 }
 
 async function apply (inputFileHandle, outputFileHandle, config) {
-    let folder="/apply";
     if (!inputFileHandle) {
         console.error('inputFileHandle is not defined');
         return;
@@ -174,7 +166,6 @@ async function apply (inputFileHandle, outputFileHandle, config) {
         inputFileName: inputFileHandle.name,
         outputFileName: outputFileHandle.name,
         config: config,
-        folder: folder,
     };
     try {
         const { results, error } = await asyncRun(apply_config, context);
@@ -193,7 +184,6 @@ async function apply (inputFileHandle, outputFileHandle, config) {
 }
 
 async function validation(outputFileHandle) {
-    let folder="/validate";
     if (!outputFileHandle) {
         console.error('formatted data is not defined');
         return;
@@ -202,7 +192,6 @@ async function validation(outputFileHandle) {
     let context = {
         dirHandle: dirHandle,
         outputFileName: outputFileHandle.name,
-        folder:folder
     };
     try {
         const { results, error } = await asyncRun(validate, context);
