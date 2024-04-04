@@ -41,13 +41,17 @@ self.onmessage = async (event) => {
       var startTime = performance.now();
 
       await self.pyodide.loadPackagesFromImports(python);
-      // mount local directory
-      const nativefs = await self.pyodide.mountNativeFS(self.folder, self.dirHandle);
+      // mount local directory, make the nativefs as a global vaiable.
+
+      if (! self.fsmounted){
+        self.nativefs = await self.pyodide.mountNativeFS(self.folder, self.dirHandle);
+        self.fsmounted = true;
+      }
 
       // run python cript
       let results = await self.pyodide.runPythonAsync(python);
       // flush new files to disk
-      await nativefs.syncfs();
+      await self.nativefs.syncfs();
 
       var endTime = performance.now();
 

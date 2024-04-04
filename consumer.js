@@ -282,7 +282,7 @@ document.querySelector('#test').addEventListener('click', async () => {
     let test_output=await test(inputFileHandle,config);
     try {
         test_example.value = "formatting result example\n";
-        const test_out = JSON.parse(test_output);
+        var test_out = JSON.parse(test_output);
 
         var dataSet = test_out.data;
         dataSet.forEach(r => {
@@ -295,14 +295,20 @@ document.querySelector('#test').addEventListener('click', async () => {
             r[3] = div3;
         })
 
-        new DataTable('#your_output', {
-            columns: test_out.title,
-            data: dataSet,
-            paging: false,
-            ordering: false,
-            searching: false,
-            autoWidth: true,
-            scrollX: true
+        //if the table table exist, need to destroy it and reinitiliaze it.
+       if($.fn.dataTable.isDataTable('#your_output') ){
+        $('#your_output').DataTable().destroy();
+        $('#your_output').empty();
+       }
+       // create the table on the UI side
+       $('#your_output').DataTable({
+        columns: test_out.title,
+        data: dataSet,
+        paging: false,
+        ordering: false,
+        searching: false,
+        autoWidth: true,
+        scrollX: true
         });
 
     } catch (err) {
