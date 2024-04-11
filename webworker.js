@@ -36,8 +36,6 @@ self.onmessage = async (event) => {
     }
     // Now is the easy part, the one that is similar to working in the main thread:
     try {
-      console.log(self.folder);
-
       var startTime = performance.now();
 
       await self.pyodide.loadPackagesFromImports(python);

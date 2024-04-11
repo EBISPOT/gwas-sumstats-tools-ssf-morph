@@ -3,12 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <title>GWAS summary statistic formatter</title>
       <link rel="stylesheet" href="https://assets.emblstatic.net/vf/v2.5.14/css/styles.css">
-      <link rel="specificstyle" href="specificstyle.css">
       <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
-
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <link rel="stylesheet" href="specificstyle.css">
 </head>
+
 <body>
   <header>
     <h1>GWAS Summary Statistics Formatter</h1>
@@ -29,138 +31,191 @@
   </form>
 
 <section id="step1">
-  <h1> STEP 1:</h1>
-  <p>Please grant the permission to read and edit files in one of your local directory</p>
-  <button type="button" id="mount">Grant permission</button>
-  <p>Please select your input file</p>
-  <button type="button" id="select" disabled="true">Select input file</button>
-</section>
-<section id="step2">
-  <h1>STEP 2:</h1>
-  <p>To generate a configure file:</p>
-  <ul>
-  <li><p>If you want to generate a new configure file, please click <button type="button" id="generate" disabled="true">generate</button> </p> </li>
-  <li><p>If you already have a configure file, please paste your configure file in the following box on the left (Conigure) </p></li>
-</section>
-<section id="step3">
-  <h1> STEP 3:</h1>
-  <p>Preview how your configuration file changes the file, and then edit the configuration file</p>
-  <div class="main">
-    <table>
-      <tr>
-        <td rowspan=3 style='width:70%'>
-          Configure:
-          <br>
-          <textarea id="config_out" style="width: 95%;" rows="60"></textarea>
-          <button id="test">Test</button>
-        </td>
-        <td style='width:30%'>Example:
-          <br>
-             <table id="example_table" class="cell-border">
-                <thead>
-                  <tr>
-                    <td>chromosome</td>
-                    <td>base_pair_location</td>
-                    <td>effect_allele</td>
-                    <td>other_allele</td>
-                    <td>beta</td>
-                    <td>standard_error</td>
-                    <td>effect_allele_frequency</td>
-                    <td>p_value</td>
-                    <td>...</td>
-                  </tr>
-                </thead>
-                <tbody>
-                     <tr>
-                         <td>1</td>
-                         <td>693731</td>
-                         <td>A</td>
-                         <td>G</td>
-                         <td>-0.016619</td>
-                         <td>0.00806496</td>
-                         <td>0.997221</td>
-                         <td>0.1</td>
-                         <td>...</td>
-                     </tr>
-                     <tr>
-                         <td>1</td>
-                         <td>935393</td>
-                         <td>G</td>
-                         <td>GCCACGGG</td>
-                         <td>-0.016619</td>
-                         <td>0.00806496</td>
-                         <td>0.997221</td>
-                         <td>0.1</td>
-                         <td>...</td>
-                     </tr>
-                     <tr>
-                         <td>1</td>
-                         <td>935393</td>
-                         <td>G</td>
-                         <td>GCCACGGG</td>
-                         <td>-0.016619</td>
-                         <td>0.00806496</td>
-                         <td>0.997221</td>
-                         <td>0.1</td>
-                         <td>...</td>
-                     </tr>
-                     <tr>
-                         <td>1</td>
-                         <td>935475</td>
-                         <td>CGC</td>
-                         <td>C</td>
-                         <td>-0.016619</td>
-                         <td>0.00806496</td>
-                         <td>0.997221</td>
-                         <td>0.1</td>
-                         <td>...</td>
-                     </tr>
-                </tbody>
-             </table>
-        </td>
-      </tr>
-      <tr>
-        <td style='width:30%'>Your input:
-          <br>
-          <table id="your_input" class="cell-border">
-            &nbsp
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td style='width:30%'>Your output:
-          <br>
-          <table id="your_output" class="cell-border">
-            <textarea id="test_example" style="width: 95%"></textarea>
-            &nbsp
-          </table>
-        </td>
-      </tr>
-    </table>
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title"> STEP 1: Select your input file</h1>
+      <p class="card-text">Please grant the permission to read and edit files in one of your local directory 
+      <button type="button" id="mount" class="btn btn-primary" data-mdb-ripple-init>Grant permission</button></p>
+      
+      <p class="card-text">Please select your input file 
+        <button type="button" id="select" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Select input file</button>
+        <p id="file_name">No file have been selected</p>
+      </p>
+    </div>
   </div>
 </section>
 
-<ul>
-  <li>If you are happy with your configure file, you can also download the configure file here
-  <button id="download" disabled="true">download configure file</button></li>
-</ul>
-  </section>
-<section>  
-  <h1> STEP 4:</h1>
-  <p>Applying the configure file to your selected inout file (1 file)</p>
-  <button id="apply">Apply</button>
-  <textarea id="apply_configure" style="width: 95%"></textarea>
+<section id="step2">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">STEP 2: Generate a configure file</h1>
+      <ul>
+        <li><p>If you want to generate a new configure file, please click 
+          <button type="button" id="generate" disabled="true" class="btn btn-primary" data-mdb-ripple-init>generate</button> 
+        </p> </li>
+        <li><p>If you already have a configure file, please paste your configure file in the following box on the left (Conigure) </p></li>
+      </ul>
+    </div>
+  </div>
 </section>
-<section>  
-    <h1> STEP 5:</h1>
-    <p>Validate your formatted result</p>
-    <p>Please select the file you want to validate <button id="select_validate">Select to validate</button></p>
-    <button id="validate">Validate</button>
-    <textarea id="validation_out" style="width: 100%;" disabled></textarea>
-  </section>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
-  <script type="module" src="consumer.js"></script>
+<section id="step3">
+  <div class="card">
+    <div class="card-body">
+       <h1 class="card-title"> STEP 3: Edit and test your configure file</h1>
+       <p>Preview how your configuration file changes the file, and then edit the configuration file</p>
+       <div class="container-xxl">
+           <table id="step3" style="width:100%">
+             <tr>
+               <td rowspan=3 style="width:50%">
+                 Configure:
+                 <br>
+                 <textarea id="config_out" rows="30" style="width:95%"></textarea>
+                 <button id="test" disabled="true" class="btn btn-primary" data-mdb-ripple-init >Test</button>
+               </td>
+               <td>
+                <!--Here is the example table-->
+                <p>
+                  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Show Example data
+                  </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                        <table id="example_table" class="display compact cell-border nowrap" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <td>chromosome</td>
+                              <td>base_pair_location</td>
+                              <td>effect_allele</td>
+                              <td>other_allele</td>
+                              <td>beta</td>
+                              <td>standard_error</td>
+                              <td>effect_allele_frequency</td>
+                              <td>p_value</td>
+                              <td>...</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                            <td>1</td>
+                            <td>693731</td>
+                            <td>A</td>
+                            <td>G</td>
+                            <td>-0.016619</td>
+                            <td>0.00806496</td>
+                            <td>0.997221</td>
+                            <td>0.1</td>
+                            <td>...</td>
+                            </tr>
+                            <tr>
+                            <td>1</td>
+                            <td>935393</td>
+                            <td>G</td>
+                            <td>GCCACGGG</td>
+                            <td>-0.016619</td>
+                            <td>0.00806496</td>
+                            <td>0.997221</td>
+                            <td>0.1</td>
+                            <td>...</td>
+                            </tr>
+                            <tr>
+                            <td>1</td>
+                            <td>935393</td>
+                            <td>G</td>
+                            <td>GCCACGGG</td>
+                            <td>-0.016619</td>
+                            <td>0.00806496</td>
+                            <td>0.997221</td>
+                            <td>0.1</td>
+                            <td>...</td>
+                            </tr>
+                            <tr>
+                            <td>1</td>
+                            <td>935475</td>
+                            <td>CGC</td>
+                            <td>C</td>
+                            <td>-0.016619</td>
+                            <td>0.00806496</td>
+                            <td>0.997221</td>
+                            <td>0.1</td>
+                            <td>...</td>
+                            </tr>
+                          </tbody>
+                       </table>
+                  </div> 
+                </div>
+               </td>
+             </tr>
+             <tr>
+               <td id="Your input">
+                <!--Here is the input table-->
+                <p>
+                  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseInput" role="button" aria-expanded="false" aria-controls="collapseInput">
+                    Show Your Input data
+                  </a>
+                </p>
+                <div class="collapse" id="collapseInput">
+                  <div class="card card-body">
+                    <table id="your_input" class="display compact cell-border nowrap">
+                    </table>
+                  </div>
+                </div>
+
+               </td>
+             </tr>
+             <tr>
+               <td>Your output:
+                 <br>
+                 <div style="overflow-x:auto;">
+                    <table id="your_output" class="display compact cell-border nowrap">
+                    <textarea id="test_example"></textarea>
+                  </div>
+                 
+                 </table>
+               </td>
+             </tr>
+           </table>
+       </div>
+       <ul>
+        <li>If you are happy with your configure file, you can also download the configure file here
+        <button id="download" disabled="true" disabled="true" class="btn btn-primary" data-mdb-ripple-init>download configure file</button></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="step4">
+  <div class="card">
+    <div class="card-body">
+       <h1 class="card-title"> STEP 4: Applying the configure file to your selected inout file (1 file)</h1>
+       <p> It is time to apply your configre file to your input file and we will download the result to the folder you gave permission to.</p>
+       <p id="apply_configure"> </p>
+       <button id="apply" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Apply</button>
+    </div>
+  </div>
+</section>
+
+
+<section is="step5">
+  <div class="card">
+     <div class="card-body">
+     <h1 class="card-title"> STEP 5: Validate your formatted result</h1>
+     <p>Please select the file you want to validate <button id="select_validate" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Select to validate</button>
+      <p id="validate_file_name">No file has been selected for validation</p>
+     </p>
+     <button id="validate" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Validate the selected file</button>
+     
+     <textarea id="validation_out" style="width: 100%;" disabled></textarea>
+     </div>
+  </div>
+</section>
+
+<!----Scripts -->
+<script type="module" src="consumer.js"></script> 
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
  

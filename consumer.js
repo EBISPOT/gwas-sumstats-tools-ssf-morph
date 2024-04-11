@@ -13,12 +13,6 @@ let inputFileHandle;
 let outputFileHandle;
 let validateFileHandle;
 
-new DataTable('#example_table',{
-    paging: false,
-    ordering: false,
-    searching: false,
-    autoWidth: false,
-});
 
 async function mountLocalDirectory() {
     // use the same ID crypt4gh to open pickers in the same directory
@@ -170,28 +164,31 @@ async function apply (inputFileHandle, outputFileHandle, config) {
     try {
         const { results, error } = await asyncRun(apply_config, context);
         if (results) {
+            $('#apply_configure').text("Please check the result in " + dirHandle + "/" + outputFileHandle.name);
             console.log("pyodideWorker return results: ", results);
             alert("Format test finish!");
             return results;
         } else if (error) {
+            $('#apply_configure').text("pyodideWorker error: ", error)
             console.log("pyodideWorker error: ", error);
         }
     } catch (e) {
+        $('#apply_configure').text(`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`)
         console.log(
             `Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`,
         );
     }
 }
 
-async function validation(outputFileHandle) {
-    if (!outputFileHandle) {
+async function validation(validateFileHandle) {
+    if (!validateFileHandle) {
         console.error('formatted data is not defined');
         return;
     }
     console.log(dirHandle);
     let context = {
         dirHandle: dirHandle,
-        outputFileName: outputFileHandle.name,
+        outputFileName: validateFileHandle.name,
     };
     try {
         const { results, error } = await asyncRun(validate, context);
@@ -201,9 +198,11 @@ async function validation(outputFileHandle) {
             alert("Validation finish!");
             return results;
         } else if (error) {
+            validation_out.value =error;
             console.log("pyodideWorker error: ", error);
         }
     } catch (e) {
+        validation_out.value =`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`;
         console.log(
             `Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`,
         );
@@ -218,18 +217,25 @@ document.querySelector('#mount').addEventListener("click", async () => {
     else {
         await mountLocalDirectory();
         document.querySelector('#select').disabled = false;
+        document.querySelector('#select_validate').disabled = false;
     }
   });
 
 document.querySelector('#select').addEventListener('click', async () => {
     // Destructure the one-element array.
     [inputFileHandle] = await window.showOpenFilePicker();
+    $('#file_name').text(inputFileHandle.name + " is selected");
     document.querySelector('#generate').disabled = false;
     document.querySelector('#download').disabled = false;
+    document.querySelector('#test').disabled = false;
+    document.querySelector('#apply').disabled = false;
 });
 
 document.querySelector('#generate').addEventListener('click', async () => {
     config_out.value = "Initializing...\n";
+    $('#generate').html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Analyzing...'); 
+    
+    
     let input=await read(inputFileHandle);
     const indata = JSON.parse(input);
 
@@ -244,14 +250,25 @@ document.querySelector('#generate').addEventListener('click', async () => {
             r[3] = div3;
         })
 
-        new DataTable('#your_input', {
-            columns: indata.title,
-            data: dataSet,
-            paging: false,
-            ordering: false,
-            searching: false,
-            autoWidth: true
+        $(document).ready(function() {
+            $( "#collapseInput" ).on("shown.bs.collapse", function() {
+                          $.each($.fn.dataTable.tables(true), function(){
+                            $(this).DataTable().columns.adjust().draw();
+                        });
+                    });
+            
+            new DataTable('#your_input', {
+                columns: indata.title,
+                data: dataSet,
+                paging: false,
+                ordering: false,
+                searching: false,
+                autoWidth: true,
+                scrollX: "600px"
+            });
+        $('#generate').html('<button type="button" id="generate" class="btn btn-primary" data-mdb-ripple-init>generate</button>');
         });
+
 
     let output = await generate(inputFileHandle);
     try {
@@ -297,7 +314,7 @@ document.querySelector('#test').addEventListener('click', async () => {
         ordering: false,
         searching: false,
         autoWidth: true,
-        scrollX: true
+        scrollX: "600px"
         });
 
     } catch (err) {
@@ -314,16 +331,52 @@ document.querySelector('#download').addEventListener('click', async () => {
 
 document.querySelector('#apply').addEventListener('click', async () => {
     apply_configure.value = "Preparing the result ...\n";
+    $('#apply').html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Formatting...'); 
+    $('#apply_configure').text("we are appliying the configure to " + inputFileHandle.name);
     var config = document.getElementById('config_out').value;
     outputFileHandle = await getNewFileHandle(inputFileHandle);
     await apply(inputFileHandle,outputFileHandle,config);
     apply_configure.value ="Apply configure file finish!\n";
+    $('#apply').html('<button id="apply" class="btn btn-primary" data-mdb-ripple-init>Apply</button>'); 
 });
 
 document.querySelector('#select_validate').addEventListener('click', async () => {
     [validateFileHandle] = await window.showOpenFilePicker();
+    $('#validate_file_name').text(validateFileHandle.name + " is selected for validation\n");
+    document.querySelector('#validate').disabled = false;
 });
+
 document.querySelector('#validate').addEventListener('click', async () => {
-    validation_out.value = "Initializing...\n";
-    await validation(outputFileHandle);
+    validation_out.value = "Initializing validation...\n";
+    $('#validate').html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Validating...'); 
+    await validation(validateFileHandle);
+    $('#validate').html('<button id="validate" class="btn btn-primary" data-mdb-ripple-init>Validate the selected file</button>'); 
 });
+
+$(document).ready(function() {
+    $( "#collapseExample" ).on("shown.bs.collapse", function() {
+                  $.each($.fn.dataTable.tables(true), function(){
+                    $(this).DataTable().columns.adjust().draw();
+                });
+            });
+        $('#example_table').DataTable( {
+            lengthChange:     false,
+            searching:        false, 
+            paging:           false,
+            fixedColumns:   {
+                leftColumns: 1,
+                rightColumns: 1
+            },
+            columnDefs: [ {
+                orderable: false,
+                className: 'select-checkbox',
+                targets:   0
+            } ],
+            select: {
+                style:    'multi+shift',
+                selector: 'td:first-child'
+            },
+            order: false,
+            scrollX: "600px"
+        } );
+    } );
