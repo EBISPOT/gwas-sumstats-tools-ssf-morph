@@ -35,10 +35,10 @@
     <div class="card-body">
       <h1 class="card-title"> STEP 1: Select your input file</h1>
       <p class="card-text">Please grant the permission to read and edit files in one of your local directory 
-      <button type="button" id="mount" class="btn btn-primary" data-mdb-ripple-init>Grant permission</button></p>
+      <button type="button" id="mount" class="btn btn-primary">Grant permission</button></p>
       
       <p class="card-text">Please select your input file 
-        <button type="button" id="select" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Select input file</button>
+        <button type="button" id="select" disabled="true" class="btn btn-primary">Select input file</button>
         <p id="file_name">No file have been selected</p>
       </p>
     </div>
@@ -51,7 +51,7 @@
       <h1 class="card-title">STEP 2: Generate a configure file</h1>
       <ul>
         <li><p>If you want to generate a new configure file, please click 
-          <button type="button" id="generate" disabled="true" class="btn btn-primary" data-mdb-ripple-init>generate</button> 
+          <button type="button" id="generate" disabled="true" class="btn btn-primary">generate</button> 
         </p> </li>
         <li><p>If you already have a configure file, please paste your configure file in the following box on the left (Conigure) </p></li>
       </ul>
@@ -71,15 +71,15 @@
                  Configure:
                  <br>
                  <textarea id="config_out" rows="30" style="width:95%"></textarea>
-                 <button id="test" disabled="true" class="btn btn-primary" data-mdb-ripple-init >Test</button>
+                 <button id="test" disabled="true" class="btn btn-primary" >Test</button>
                </td>
                <td>
                 <!--Here is the example table-->
-                <p>
-                  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <div class="d-grid gap-2">
+                  <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     Show Example data
                   </a>
-                </p>
+                </div>
                 <div class="collapse" id="collapseExample">
                   <div class="card card-body">
                         <table id="example_table" class="display compact cell-border nowrap" cellspacing="0">
@@ -150,11 +150,11 @@
              <tr>
                <td id="Your input">
                 <!--Here is the input table-->
-                <p>
-                  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseInput" role="button" aria-expanded="false" aria-controls="collapseInput">
+                <div class="d-grid gap-2">
+                  <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseInput" role="button" aria-expanded="false" aria-controls="collapseInput">
                     Show Your Input data
                   </a>
-                </p>
+                </div>
                 <div class="collapse" id="collapseInput">
                   <div class="card card-body">
                     <table id="your_input" class="display compact cell-border nowrap">
@@ -179,7 +179,7 @@
        </div>
        <ul>
         <li>If you are happy with your configure file, you can also download the configure file here
-        <button id="download" disabled="true" disabled="true" class="btn btn-primary" data-mdb-ripple-init>download configure file</button></li>
+        <button id="download" disabled="true" disabled="true" class="btn btn-primary">download configure file</button></li>
       </ul>
     </div>
   </div>
@@ -191,7 +191,7 @@
        <h1 class="card-title"> STEP 4: Applying the configure file to your selected inout file (1 file)</h1>
        <p> It is time to apply your configre file to your input file and we will download the result to the folder you gave permission to.</p>
        <p id="apply_configure"> </p>
-       <button id="apply" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Apply</button>
+       <button id="apply" disabled="true" class="btn btn-primary">Apply</button>
     </div>
   </div>
 </section>
@@ -201,10 +201,10 @@
   <div class="card">
      <div class="card-body">
      <h1 class="card-title"> STEP 5: Validate your formatted result</h1>
-     <p>Please select the file you want to validate <button id="select_validate" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Select to validate</button>
+     <p>Please select the file you want to validate <button id="select_validate" disabled="true" class="btn btn-primary">Select to validate</button>
       <p id="validate_file_name">No file has been selected for validation</p>
      </p>
-     <button id="validate" disabled="true" class="btn btn-primary" data-mdb-ripple-init>Validate the selected file</button>
+     <button id="validate" disabled="true" class="btn btn-primary">Validate the selected file</button>
      
      <textarea id="validation_out" style="width: 100%;" disabled></textarea>
      </div>
