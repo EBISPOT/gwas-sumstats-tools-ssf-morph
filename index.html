@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  <title>GWAS summary statistic formatter</title>
+	  <title>SSF-morph</title>
       <link rel="stylesheet" href="https://assets.emblstatic.net/vf/v2.5.14/css/styles.css">
       <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -13,33 +13,25 @@
 
 <body>
   <header>
-    <h1>GWAS Summary Statistics Formatter</h1>
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">SSF-morph: Simplifying GWAS Summstats Formatting and Validating</h1>
+        <p class="card-text">SSF-morph is an online tool designed to streamline the formatting and <a href="#step5">validation</a> process for GWAS summary statistics files, specifically tailored for submission to the GWAS catalog.</p>
+      </div>
+    </div>
   </header>
-  <form>
-		<fieldset>
-      <legend> INTRODUCTION </legend>
-  <p> This tool allows you to format a single file or multiple files with the same starting format to a desired tabular format for GWAS summary statistics output. </p>
-  <p> The formatting process has three steps:
-  </p>
-  
-  <ul>
-  <li>Generate a formatting configuration template from the sumstats file</li>
-  <li>Edit the formatting configuration as required</li>
-  <li>Apply the formatting configuration to the file(s)</li>
-  </ul>
-  </fieldset>
-  </form>
 
 <section id="step1">
   <div class="card">
     <div class="card-body">
-      <h1 class="card-title"> STEP 1: Select your input file</h1>
-      <p class="card-text">Please grant the permission to read and edit files in one of your local directory 
-      <button type="button" id="mount" class="btn btn-primary">Grant permission</button></p>
-      
-      <p class="card-text">Please select your input file 
+      <h3 class="card-title"> STEP 1: Select the input file</h3>
+      <p class="card-text">1.1 Please grant the permission to read and edit files in one of your local directory 
+      <button type="button" id="mount" class="btn btn-primary">Grant permission</button>
+      <div id="mountdiv"></div>
+      </p>
+      <p class="card-text">1.2 Please select your input file
         <button type="button" id="select" disabled="true" class="btn btn-primary">Select input file</button>
-        <p id="file_name">No file have been selected</p>
+        <div id="selectdiv"></div>
       </p>
     </div>
   </div>
@@ -48,13 +40,32 @@
 <section id="step2">
   <div class="card">
     <div class="card-body">
-      <h1 class="card-title">STEP 2: Generate a configure file</h1>
-      <ul>
-        <li><p>If you want to generate a new configure file, please click 
-          <button type="button" id="generate" disabled="true" class="btn btn-primary">generate</button> 
-        </p> </li>
-        <li><p>If you already have a configure file, please paste your configure file in the following box on the left (Conigure) </p></li>
-      </ul>
+      <h3 class="card-title">STEP 2: Prepare the configuration file</h3>
+        <p> 2.1 Please specify the delimiter in the input file:
+          <input type="text" name="delimiter" list="delimiterList" id="delimiter">
+          <datalist id="delimiterList">
+            <option value="\t" label="Tab"> 
+            <option value="," label="Comma">
+            <option value=" " label="Space">
+          </datalist>
+        ; and please specify the first character in the line which indicates that this lineis a comment:
+        <input type="text" name="comments" list="commentsList" id="comments">
+          <datalist id="commentsList">
+            <option value="#"> 
+          </datalist>
+          . (Note: please leave any fields empty if they are not applicable.)
+        </p>
+        <p>2.2 Please select the appropriate analysis software from the dropdown menu: 
+        <select name="analysis_software" id="analysis_software">
+          <option value="BOLT-LMM">BOLT-LMM</option>
+          <option value="REGENIE">REGENIE</option>
+          <option value="SNPTEST">SNPtest</option>
+          <option value="SAIGE">SAIGE</option>
+          <option value="None" selected>Others</option>
+        </select>
+        </p>
+      <button type="button" id="generate" disabled="true" class="btn btn-primary">Generate</button>
+      <div id="step2error"></div>
     </div>
   </div>
 </section>
@@ -62,7 +73,7 @@
 <section id="step3">
   <div class="card">
     <div class="card-body">
-       <h1 class="card-title"> STEP 3: Edit and test your configure file</h1>
+       <h3 class="card-title"> STEP 3: Edit and test your configure file</h3>
        <p>Preview how your configuration file changes the file, and then edit the configuration file</p>
        <div class="container-xxl">
            <table id="step3" style="width:100%">
@@ -181,6 +192,7 @@
         <li>If you are happy with your configure file, you can also download the configure file here
         <button id="download" disabled="true" disabled="true" class="btn btn-primary">download configure file</button></li>
       </ul>
+      <div id="step3error"></div>
     </div>
   </div>
 </section>
@@ -188,28 +200,48 @@
 <section id="step4">
   <div class="card">
     <div class="card-body">
-       <h1 class="card-title"> STEP 4: Applying the configure file to your selected inout file (1 file)</h1>
-       <p> It is time to apply your configre file to your input file and we will download the result to the folder you gave permission to.</p>
+       <h3 class="card-title"> STEP 4: Applying the configure file to your selected inout file (1 file)</h3>
+       <p> It's time to apply your configuration to your input file. The formatted result will then be downloaded to the folder you have permitted.</p>
        <p id="apply_configure"> </p>
        <button id="apply" disabled="true" class="btn btn-primary">Apply</button>
+       <div id="step4error"></div>
     </div>
   </div>
 </section>
 
 
-<section is="step5">
+<section id="step5">
   <div class="card">
      <div class="card-body">
-     <h1 class="card-title"> STEP 5: Validate your formatted result</h1>
-     <p>Please select the file you want to validate <button id="select_validate" disabled="true" class="btn btn-primary">Select to validate</button>
-      <p id="validate_file_name">No file has been selected for validation</p>
-     </p>
-     <button id="validate" disabled="true" class="btn btn-primary">Validate the selected file</button>
-     
-     <textarea id="validation_out" style="width: 100%;" disabled></textarea>
-     </div>
+     <h3 class="card-title"> STEP 5: Validate your formatted result</h3>
+
+     <p class="card-text">
+      5.1 If you have not granted permission to read and edit files from your local directory in STEP 1, please click the <button type="button" id="mountvalidate" class="btn btn-primary">Grant permission</button>. Otherwise, you can skip this step and select the file you want to validate <button id="select_validate" disabled="true" class="btn btn-primary">Select to validate</button>
+    </p>
+    <div id="validatediv"></div>
+    <p>
+      5.2 Click <button id="validate" disabled="true" class="btn btn-primary">Validate </button> to validate the selected file
+    </p>
+    <textarea id="validation_out" style="width: 100%;" rows=5 disabled></textarea>
+    <div id="step5error"></div>
+    </div>
   </div>
 </section>
+
+
+<div class="card-footer text-body-secondary">
+  <footer class="footer background-color-primary-accent">
+    <!--<div class="footer-banner background-color-primary"></div>-->
+    <div class="container">
+        <p class="text-muted">
+            Copyright &copy; EMBL-EBI <span id="year"></span> | EMBL-EBI is an Outstation of the
+            <a href="https://www.embl.org">European Molecular Biology Laboratory</a> |
+            <a href="https://www.ebi.ac.uk/about/terms-of-use">Terms of use</a> |
+            <a href="https://www.ebi.ac.uk/long-term-data-preservation">Data Preservation   Statement</a>
+        </p>
+    </div>
+  </footer>
+</div>
 
 <!----Scripts -->
 <script type="module" src="consumer.js"></script> 

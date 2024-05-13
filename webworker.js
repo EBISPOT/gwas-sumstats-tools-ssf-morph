@@ -40,12 +40,10 @@ self.onmessage = async (event) => {
 
       await self.pyodide.loadPackagesFromImports(python);
       // mount local directory, make the nativefs as a global vaiable.
-      console.error(self.fsmounted);
       if (! self.fsmounted){
         self.nativefs = await self.pyodide.mountNativeFS("/data", self.dirHandle);
         self.fsmounted = true;
       }
-      console.error(self.fsmounted);
       // run python cript
       let results = await self.pyodide.runPythonAsync(python);
       // flush new files to disk

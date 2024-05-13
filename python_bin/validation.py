@@ -6,5 +6,5 @@ from pathlib import Path
 
 # local file system is mounted in /data
 input_path = Path("/data") / outputFileName
-output=validate(filename=input_path)
+output=validate(filename=input_path,errors_file=True)
 f"The validation result is:{output[0]}.\nReason:{output[1]}"
