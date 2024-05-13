@@ -15,6 +15,8 @@ let validateFileHandle;
 let delimiter;
 let removecomments;
 let analysisSoftware;
+let nrows;
+let zeropvalues;
 
 
 async function mountLocalDirectory() {
@@ -201,6 +203,8 @@ async function validation(validateFileHandle) {
     let context = {
         dirHandle: dirHandle,
         outputFileName: validateFileHandle.name,
+        zeropvalues: zeropvalues,
+        nrows: nrows
     };
     try {
         const { results, error } = await asyncRun(validate, context);
@@ -212,7 +216,7 @@ async function validation(validateFileHandle) {
         } else if (error) {
             validation_out.value =error;
             console.log("pyodideWorker error: ", error);
-            appendAlertToElement("step5rror",'Error: '+error,'danger')
+            appendAlertToElement("step5error",'Error: '+error,'danger')
         }
     } catch (e) {
         validation_out.value =`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`;
@@ -268,6 +272,8 @@ document.querySelector('#generate').addEventListener('click', async () => {
     delimiter = document.getElementById('delimiter').value;
     removecomments = document.getElementById('comments').value;
     analysisSoftware= document.getElementById('analysis_software').value;
+
+    appendAlertToElement("step2error",'Please Note: This is not guaranteed to return a valid standard file, because mandatory data fields could be missing in the input.','warning' )
 
     config_out.value = "Initializing...\n";
     $('#generate').html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Analyzing...'); 
@@ -403,6 +409,9 @@ document.querySelector('#select_validate').addEventListener('click', async () =>
 
 
 document.querySelector('#validate').addEventListener('click', async () => {
+    zeropvalues=document.getElementById('zeropvalues').value
+    nrows=document.getElementById('nrows').value
+
     validation_out.value = "Initializing validation...\n";
     $('#validate').html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Validating...'); 
     await validation(validateFileHandle);

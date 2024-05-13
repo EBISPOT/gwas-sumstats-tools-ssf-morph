@@ -220,7 +220,19 @@
     </p>
     <div id="validatediv"></div>
     <p>
-      5.2 Click <button id="validate" disabled="true" class="btn btn-primary">Validate </button> to validate the selected file
+      5.2 Kindly note the specific data validation requirements: the minimum number of rows should be <input type="text" name="nrows" list="nrowsList" id="nrows">
+      <datalist id="nrowsList">
+        <option value=100000 label="GWAS catalog acceptable"> 
+      </datalist>
+      and if you have zero-pvalues 
+      <select name="zeropvalues" id="zeropvalues">
+      <option value="False" selected>False</option>
+      <option value="True">True</option>
+      </select>
+      (Note: GWAS catalog does not accept zero p-values, unless supported by analysis software provided in the user submission form)
+    </p>
+    <p>
+      5.3 Click <button id="validate" disabled="true" class="btn btn-primary">Validate </button> to validate the selected file
     </p>
     <textarea id="validation_out" style="width: 100%;" rows=5 disabled></textarea>
     <div id="step5error"></div>
