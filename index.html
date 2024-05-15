@@ -15,8 +15,8 @@
   <header>
     <div class="card">
       <div class="card-body">
-        <h1 class="card-title">SSF-morph: Simplifying GWAS Summstats Formatting and Validating</h1>
-        <p class="card-text">SSF-morph is an online tool designed to streamline the formatting and <a href="#step5">validation</a> process for GWAS summary statistics files, specifically tailored for submission to the GWAS catalog.</p>
+        <h1 class="card-title">SSF-morph: Simplifying GWAS Sumstats Formatting and Validating</h1>
+        <p class="card-text">SSF-morph is an online tool designed to streamline the formatting and <a href="#step5">validation</a> process for GWAS summary statistics files, specifically tailored for submission to the GWAS Catalog.</p>
       </div>
     </div>
   </header>
@@ -25,7 +25,7 @@
   <div class="card">
     <div class="card-body">
       <h3 class="card-title"> STEP 1: Select the input file</h3>
-      <p class="card-text">1.1 Please grant the permission to read and edit files in one of your local directory 
+      <p class="card-text">1.1 Please grant the permission to read and edit files in one of your local directories  
       <button type="button" id="mount" class="btn btn-primary">Grant permission</button>
       <div id="mountdiv"></div>
       </p>
@@ -48,7 +48,7 @@
             <option value="," label="Comma">
             <option value=" " label="Space">
           </datalist>
-        ; and please specify the first character in the line which indicates that this lineis a comment:
+        ; and please specify the first character in the line which indicates that this line is a comment:
         <input type="text" name="comments" list="commentsList" id="comments">
           <datalist id="commentsList">
             <option value="#"> 
@@ -73,13 +73,13 @@
 <section id="step3">
   <div class="card">
     <div class="card-body">
-       <h3 class="card-title"> STEP 3: Edit and test your configure file</h3>
-       <p>Preview how your configuration file changes the file, and then edit the configuration file</p>
+       <h3 class="card-title"> STEP 3: Edit and test your configuration</h3>
+       <p>Preview how your configuration changes the input file using the `Test` button, and then edit the configuration</p>
        <div class="container-xxl">
            <table id="step3" style="width:100%">
              <tr>
                <td rowspan=3 style="width:50%">
-                 Configure:
+                 Configuration:
                  <br>
                  <textarea id="config_out" rows="30" style="width:95%"></textarea>
                  <button id="test" disabled="true" class="btn btn-primary" >Test</button>
@@ -200,7 +200,7 @@
 <section id="step4">
   <div class="card">
     <div class="card-body">
-       <h3 class="card-title"> STEP 4: Applying the configure file to your selected inout file (1 file)</h3>
+       <h3 class="card-title"> STEP 4: Applying the configuration to your selected input file (1 file)</h3>
        <p> It's time to apply your configuration to your input file. The formatted result will then be downloaded to the folder you have permitted.</p>
        <p id="apply_configure"> </p>
        <button id="apply" disabled="true" class="btn btn-primary">Apply</button>
@@ -220,7 +220,7 @@
     </p>
     <div id="validatediv"></div>
     <p>
-      5.2 Kindly note the specific data validation requirements: the minimum number of rows should be <input type="text" name="nrows" list="nrowsList" id="nrows">
+      5.2 In your file, encountering fewer than 100,000 variants (rows) or zero p_values can lead to validation failure. However, we do accept data with lower row numbers under certain circumstances (please contact gwas-subs@ebi.ac.uk to request an eligibility review). To bypass the minimum row number requirement, and enable you to validate the rest of the file, please set the specific data validation requirements: the minimum number of rows should be <input type="text" name="nrows" list="nrowsList" id="nrows">
       <datalist id="nrowsList">
         <option value=100000 label="GWAS catalog acceptable"> 
       </datalist>
@@ -229,7 +229,6 @@
       <option value="False" selected>False</option>
       <option value="True">True</option>
       </select>
-      (Note: GWAS catalog does not accept zero p-values, unless supported by analysis software provided in the user submission form)
     </p>
     <p>
       5.3 Click <button id="validate" disabled="true" class="btn btn-primary">Validate </button> to validate the selected file
