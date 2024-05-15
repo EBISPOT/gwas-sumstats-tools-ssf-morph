@@ -220,7 +220,7 @@
     </p>
     <div id="validatediv"></div>
     <p>
-      5.2 In your file, encountering fewer than 100,000 variants (rows) or zero p_values can lead to validation failure. However, we do accept data with lower row numbers under certain circumstances (please contact gwas-subs@ebi.ac.uk to request an eligibility review). To bypass the minimum row number requirement, and enable you to validate the rest of the file, please set the specific data validation requirements: the minimum number of rows should be <input type="text" name="nrows" list="nrowsList" id="nrows">
+      5.2 In your file, encountering fewer than 100,000 variants (rows) or zero p_values can lead to validation failure. To bypass the minimum row number requirement, and enable you to validate the rest of the file, please set the specific data validation requirements: the minimum number of rows should be <input type="text" name="nrows" list="nrowsList" id="nrows">
       <datalist id="nrowsList">
         <option value=100000 label="GWAS catalog acceptable"> 
       </datalist>
@@ -229,6 +229,9 @@
       <option value="False" selected>False</option>
       <option value="True">True</option>
       </select>
+      </p>
+      <p>
+      For submission to the GWAS Catalog, lower row numbers may be permissible under certain circumstances (please contact gwas-subs@ebi.ac.uk to request an eligibility review). For files containing zero pvalues, analysis software type must be provided in the metadata template (see <a href="https://www.ebi.ac.uk/gwas/docs/submission-summary-statistics-plus-metadata">GWAS Catalog submission documentation</a> for more details)
     </p>
     <p>
       5.3 Click <button id="validate" disabled="true" class="btn btn-primary">Validate </button> to validate the selected file
