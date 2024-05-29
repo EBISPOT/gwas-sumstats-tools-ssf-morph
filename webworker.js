@@ -10,7 +10,7 @@ async function loadPyodideAndPackages() {
     await pyodide.loadPackage("micropip");
     const micropip = pyodide.pyimport("micropip");
 
-    await pyodide.loadPackage(["numpy", "pytz", "ruamel.yaml", "pandas","pydantic"]);
+    await pyodide.loadPackage(["ssl","numpy", "pytz", "ruamel.yaml", "pandas","pydantic"]);
     // manual workaround: docopt doesn't have a wheel file on python
     
 
