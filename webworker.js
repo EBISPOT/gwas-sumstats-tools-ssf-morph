@@ -9,16 +9,22 @@ async function loadPyodideAndPackages() {
     self.pyodide = await loadPyodide();
     await pyodide.loadPackage("micropip");
     const micropip = pyodide.pyimport("micropip");
+<<<<<<< Updated upstream
 
     await pyodide.loadPackage(["ssl","numpy", "pytz", "ruamel.yaml", "pandas","pydantic"]);
     // manual workaround: docopt doesn't have a wheel file on python
+=======
+>>>>>>> Stashed changes
     
-
+    await pyodide.loadPackage(["ssl","numpy", "pytz", "ruamel.yaml", "pandas","pydantic"]);
+    // manual workaround: docopt doesn't have a wheel file on python
     await micropip.install("./wheels/petl-1.7.14-py3-none-any.whl");
     await micropip.install("tabulate");
+    await micropip.install("./wheels/gwas_sumstats_tools-1.0.8-py3-none-any.whl", keep_going=true);
+
     //await micropip.install("./wheels/stringcase-1.2.0-py3-none-any.whl");
     //await micropip.install("./wheels/frictionless-5.15.6-py3-none-any.whl");
-    await micropip.install("./wheels/gwas_sumstats_tools-1.0.8-py3-none-any.whl", keep_going=true);
+    
 }
 let pyodideReadyPromise = loadPyodideAndPackages();
 
