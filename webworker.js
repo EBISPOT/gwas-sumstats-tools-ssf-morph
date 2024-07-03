@@ -9,13 +9,6 @@ async function loadPyodideAndPackages() {
     self.pyodide = await loadPyodide();
     await pyodide.loadPackage("micropip");
     const micropip = pyodide.pyimport("micropip");
-<<<<<<< Updated upstream
-
-    await pyodide.loadPackage(["ssl","numpy", "pytz", "ruamel.yaml", "pandas","pydantic"]);
-    // manual workaround: docopt doesn't have a wheel file on python
-=======
->>>>>>> Stashed changes
-    
     await pyodide.loadPackage(["ssl","numpy", "pytz", "ruamel.yaml", "pandas","pydantic"]);
     // manual workaround: docopt doesn't have a wheel file on python
     await micropip.install("./wheels/petl-1.7.14-py3-none-any.whl");
