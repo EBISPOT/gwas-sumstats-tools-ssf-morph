@@ -10,5 +10,6 @@ if nrows:
   minimum_rows=int(nrows)
 else:
   minimum_rows=10000
-output=validate(filename=input_path,minimum_rows=minimum_rows,pval_zero=bool(zeropvalues))
+
+output=validate(filename=input_path,minimum_rows=minimum_rows,pval_zero=eval(zeropvalues))
 f"The validation result is:{output[0]}.\nReason:{output[1]}\nerror_preview:{output[2]}\nprimary_error_type:{output[3]}"
